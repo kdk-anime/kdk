@@ -1,0 +1,9 @@
+node_modules
+dist
+/src/**/*.js
+/src/**/*.d.ts
+/src/**/*.js.map
+/src/**/*.css
+/src/**/*.css.map
+!/src/assets/fonts/**/*.css
+/.npmrc

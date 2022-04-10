@@ -1,0 +1,16 @@
+{
+	"name": "KDK Anime",
+	"short_name": "KDK",
+	"start_url": "/",
+	"display": "standalone",
+	"background_color": "#f0f0f0",
+	"categories": ["entertainment", "utilities"],
+	"lang": "ru-RU",
+	"protocol_handlers": [
+		{
+			"protocol": "kdk",
+			"url": "#play/%s"
+		}
+	],
+	"update_git": "https://api.github.com/repos/kdk-anime/kdk/releases"
+}
