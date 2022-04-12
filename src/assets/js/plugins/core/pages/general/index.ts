@@ -60,7 +60,7 @@ export default class General implements Partial<ContainerHandler> {
 				return;
 			}
 			if (backplate) {
-				await shikimori.getAnime(response[0].id, '/screenshots').then((res) => {
+				await shikimori.getAnime<Record<string, string>[]>(response[0].id, '/screenshots').then((res) => {
 					this.backplateImage = res[res.length - 1];
 				}, (reason) => {
 					parent.appendChild(requestError(`Shikimori:request:failure (${reason})`));

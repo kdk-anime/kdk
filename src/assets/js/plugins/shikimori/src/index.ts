@@ -27,9 +27,9 @@ export default class Shikimori {
 		return this.netRequest(`/users/${id}${subPath}`);
 	}
 
-	getAnime(id: number, subPath?: string): Promise<getAnimeOutput> {
+	getAnime<T = getAnimeOutput>(id: number, subPath?: string): Promise<T> {
 		if (!subPath) {
-			return this.netRequest<getAnimeOutput>(`/animes/${id}`);
+			return this.netRequest<T>(`/animes/${id}`);
 		}
 		return this.netRequest(`/animes/${id}${subPath}`);
 	}
