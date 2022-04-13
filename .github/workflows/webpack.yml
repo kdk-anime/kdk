@@ -24,6 +24,8 @@ jobs:
 
     - name: Build
       run: |
-        npm login --scope=@OWNER --registry=https://npm.pkg.github.com < ${{ secrets.authtoken }}
+        npm login --scope=@fleisar --registry=https://npm.pkg.github.com
+        fleisar
+        ${{ secrets.authtoken }}
         npm install
         npx webpack
