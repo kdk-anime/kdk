@@ -28,10 +28,16 @@ export type ConfigTree = {
 	},
 	header: {
 		horizontalAlign: boolean,
-	}
+	},
 	player: {
 		switchByHeader: boolean,
 	},
+	general: {
+		list: 'kodik' | 'shikimori',
+		posters: 'shikimori' | 'worldart' | 'imdb' | 'kinopoisk',
+		video: 'kodik',
+		autoloadTrigger: number,
+	}
 };
 
 const defaultConfigTree: ConfigTree = {
@@ -66,11 +72,17 @@ const defaultConfigTree: ConfigTree = {
 	player: {
 		switchByHeader: true,
 	},
+	general: {
+		list: 'kodik',
+		posters: 'shikimori',
+		video: 'kodik',
+		autoloadTrigger: 200,
+	},
 };
 
 let userConfigTree: Partial<ConfigTree> = {};
 
-export function Config(): ConfigTree {
+export default function Config(): ConfigTree {
 	return { ...defaultConfigTree, ...userConfigTree };
 }
 

@@ -9,7 +9,7 @@
     "compile-scripts": "webpack --config webpack.config.js",
     "compile": "npm run compile-styles && npm run compile-scripts",
     "copy": "copyfiles -u 1 ./src/**/*.html ./dist && copyfiles -u 1 ./src/assets/fonts/**/* ./dist",
-    "build": "rimraf ./dist && npm run compile && npm run copy"
+    "build": "rimraf ./dist && npm run copy && npm run compile"
   },
   "author": "Fleisar",
   "license": "ISC",

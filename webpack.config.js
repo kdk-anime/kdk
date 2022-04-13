@@ -37,4 +37,10 @@ module.exports = {
 		filename: '[name].js',
 		path: path.resolve(__dirname, 'dist', 'assets/js'),
 	},
+	watch: true,
+	watchOptions: {
+		ignored: [
+			'node_modules'
+		]
+	}
 };

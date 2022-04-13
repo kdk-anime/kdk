@@ -28,6 +28,15 @@ export default class Core implements ContainerHandler {
 		return true;
 	}
 
+	close(root): boolean {
+		switch (root) {
+			case 'general':
+			default:
+				this.subHandlers.general.close();
+		}
+		return true;
+	}
+
 	async setup(): Promise<boolean> {
 		await this.subHandlers.general.setup();
 		Packet.store.Pages.open('core.general');

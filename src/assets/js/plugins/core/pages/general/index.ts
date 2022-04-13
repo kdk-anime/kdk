@@ -25,12 +25,52 @@ export default class General implements Partial<ContainerHandler> {
 
 	resultsOffset = 0;
 
+	posterSelected: HTMLElement | null = null;
+
 	open() {
+		const config = Packet.store.Config();
 		if (this.forTheFirstTime) {
 			this.forTheFirstTime = false;
-			this.firstOpen();
+			this.firstOpen(config.general.autoloadTrigger);
 		}
+		this.tickInterval = setInterval(() => this.tickHandler(config.general.autoloadTrigger), 1e3);
 		return true;
+	}
+
+	close() {
+		clearInterval(this.tickInterval);
+		return true;
+	}
+
+	binds: Record<string, (...any) => any> = {
+		posters(poster) {
+			console.log(poster);
+			poster.style.setProperty('--offsetX', poster.offsetLeft.toString());
+			poster.style.setProperty('--offsetY', poster.offsetTop.toString());
+			poster.classList.add('poster--opened');
+		},
+	};
+
+	bind() {
+		const posters = document.querySelectorAll<HTMLElement>('.page.core-general .poster');
+		posters.forEach((poster) => {
+			poster.addEventListener('click', () => this.binds.posters(poster));
+		});
+	}
+
+	unbind() {
+		const posters = document.querySelectorAll<HTMLElement>('.page.core-general .poster');
+		posters.forEach((poster) => poster.removeEventListener('click', () => this.binds.posters(poster)));
+	}
+
+	tickInterval: NodeJS.Timer | null = null;
+
+	async tickHandler(autoloadTrigger) {
+		const root = document.querySelector<HTMLElement>('.page.core-general');
+		const scrolledContent = root.clientHeight + root.scrollTop;
+		if (root.scrollHeight - scrolledContent <= autoloadTrigger && !this.loadInProgress) {
+			await this.loadTitles();
+		}
 	}
 
 	async firstOpen(autoloadTrigger: number = 200) {
@@ -40,12 +80,7 @@ export default class General implements Partial<ContainerHandler> {
 		const root = document.querySelector<HTMLElement>('.page.core-general');
 		root.querySelector<HTMLElement>('.backplate')
 			.style.setProperty('background', `linear-gradient(#fff0, #ffff), url('//shikimori.one${this.backplateImage.original}')`);
-		root.addEventListener('scroll', () => {
-			const scrolledContent = root.clientHeight + root.scrollTop;
-			if (root.scrollHeight - scrolledContent <= autoloadTrigger && !this.loadInProgress) {
-				this.loadTitles();
-			}
-		});
+		root.addEventListener('scroll', () => this.tickHandler(autoloadTrigger));
 	}
 
 	async loadTitles(count: number = 10, backplate = false) {
@@ -70,6 +105,8 @@ export default class General implements Partial<ContainerHandler> {
 			const close = () => {
 				this.resultsOffset += count;
 				this.lazyLoad.update();
+				this.unbind();
+				this.bind();
 				this.loadInProgress = false;
 			};
 			let countDown = setTimeout(() => close(), 10e3);

@@ -1,5 +1,7 @@
-function windowSizes(height?: number) {
-	document.querySelector('body').style.setProperty('--window-height', `${height ?? (window.innerHeight - 12)}px`);
+function windowSizes(width?: number, height?: number) {
+	const body = document.querySelector('body');
+	body.style.setProperty('--window-height', `${height ?? (window.innerHeight - 12)}px`);
+	body.style.setProperty('--window-width', `${width ?? window.innerWidth}px`);
 }
 
 windowSizes();
