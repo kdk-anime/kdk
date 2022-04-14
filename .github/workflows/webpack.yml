@@ -1,9 +1,7 @@
-name: NodeJS with Webpack
+name: Deploy on server
 
 on:
   push:
-    branches: [ master ]
-  pull_request:
     branches: [ master ]
 
 jobs:
@@ -15,16 +13,23 @@ jobs:
         node-version: [16.x]
     
     steps:
-    - uses: actions/checkout@v3
-
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Get latest code
+      uses: actions/checkout@v3
+    - name: Setting up NodeJS
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-
     - name: Build
       run: |
         npm install -g npm-cli-login
         npm-cli-login -u "fleisar" -p "${{ secrets.authtoken }}" -e "me@fle.su" -r "https://npm.pkg.github.com" -s "@fleisar"
         npm install
         npx webpack
+    - name: Deploy
+      uses: SamKirkland/FTP-Deploy-Action@4.3.0
+      with:
+        server: ${{ secrets.statichost }}
+        username: ${{ secrets.staticuser }}
+        password: ${{ secrets.staticuserpassword }}
+        local-dir: ./dist
+        server-dir: ${{ secrets.staticroot }}
