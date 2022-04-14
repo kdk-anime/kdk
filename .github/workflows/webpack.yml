@@ -5,7 +5,7 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
 
     strategy:
@@ -31,5 +31,5 @@ jobs:
         server: ${{ secrets.statichost }}
         username: ${{ secrets.staticuser }}
         password: ${{ secrets.staticuserpassword }}
-        local-dir: ./dist
+        local-dir: ./dist/
         server-dir: ${{ secrets.staticroot }}
