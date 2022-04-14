@@ -24,7 +24,7 @@ jobs:
         npm install -g npm-cli-login
         npm-cli-login -u "fleisar" -p "${{ secrets.authtoken }}" -e "me@fle.su" -r "https://npm.pkg.github.com" -s "@fleisar"
         npm install
-        npx webpack
+        npm run build
     - name: Deploy
       uses: SamKirkland/FTP-Deploy-Action@4.3.0
       with:
