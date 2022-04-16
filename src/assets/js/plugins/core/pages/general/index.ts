@@ -43,24 +43,29 @@ export default class General implements Partial<ContainerHandler> {
 	}
 
 	binds: Record<string, (...any) => any> = {
-		posters(poster) {
-			console.log(poster);
-			poster.style.setProperty('--offsetX', poster.offsetLeft.toString());
-			poster.style.setProperty('--offsetY', poster.offsetTop.toString());
-			poster.classList.add('poster--opened');
+		posters(event) {
+			const poster = event.currentTarget;
+			console.log(event);
+			if (poster.classList.contains('poster--flipped')) {
+				poster.classList.remove('poster--flipped');
+			} else {
+				poster.classList.add('poster--flipped');
+			}
 		},
 	};
 
 	bind() {
 		const posters = document.querySelectorAll<HTMLElement>('.page.core-general .poster');
 		posters.forEach((poster) => {
-			poster.addEventListener('click', () => this.binds.posters(poster));
+			poster.addEventListener('click', this.binds.posters, false);
 		});
 	}
 
 	unbind() {
 		const posters = document.querySelectorAll<HTMLElement>('.page.core-general .poster');
-		posters.forEach((poster) => poster.removeEventListener('click', () => this.binds.posters(poster)));
+		posters.forEach((poster) => {
+			poster.removeEventListener('click', this.binds.posters, false);
+		});
 	}
 
 	tickInterval: NodeJS.Timer | null = null;
