@@ -1,7 +1,9 @@
 export type PacketUnit = { name: string, class: any };
 
 export class Packet {
-	static store: Record<string, any> = {};
+	static store: Record<string, any> = {
+		gloabal: {},
+	};
 
 	static add(...elements: PacketUnit[]) {
 		elements.forEach((element) => {

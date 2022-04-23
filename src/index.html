@@ -4,11 +4,22 @@
 	<meta charset="UTF-8">
 	<link href="assets/fonts/Material-Icons/stylesheet.css" rel="stylesheet">
 	<link href="assets/index.css" rel="stylesheet">
-	<script src="assets/js/index.js" defer></script>
-	<script src="assets/js/plugins/kodik/index.js" defer></script>
-	<script src="assets/js/plugins/shikimori/index.js" defer></script>
-	<script src="assets/js/plugins/vanilla-lazyload/index.js" defer></script>
-	<script src="assets/js/plugins/core/index.js" defer></script>
+	<script defer>
+		const jsPath = 'assets/js/';
+		const bundles = [
+			'index.js',
+			'plugins/kodik/index.js',
+			'plugins/shikimori/index.js',
+			'plugins/vanilla-lazyload/index.js',
+			'plugins/core/index.js',
+		];
+		const head = document.querySelector('head');
+		bundles.forEach((path) => {
+			const script = document.createElement('script');
+			script.src = `${jsPath}${path}?${(new Date()).getTime()}`;
+			head.appendChild(script);
+		});
+	</script>
 	<title>KDK Anime | Главная</title>
 </head>
 <body>
