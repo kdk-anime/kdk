@@ -2,6 +2,7 @@ import { Packet } from './packet';
 import Pages, { PageDOM } from './classes/pages';
 import Windows, { WindowDOM } from './classes/windows';
 import './enchantments';
+import './menu/interactions';
 import Config from './config';
 
 Packet.link();
