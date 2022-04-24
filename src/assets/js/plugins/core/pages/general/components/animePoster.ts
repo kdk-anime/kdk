@@ -3,6 +3,12 @@ import { getAnimeOutput } from '../../../../shikimori/src/sharedTypes';
 export default function animePoster(data: Partial<getAnimeOutput>): Element {
 	const parent = document.createElement('div');
 	parent.classList.add('poster', `shikimori-${data.id}`);
+	parent.dataset.playerData = JSON.stringify({
+		player: 'kodik',
+		params: {
+			shikimori_id: data.id,
+		},
+	});
 
 	const img = document.createElement('img');
 	img.classList.add('lazy');

@@ -34,6 +34,8 @@ export default class General implements Partial<ContainerHandler> {
 			this.firstOpen(config.general.autoloadTrigger);
 		}
 		this.tickInterval = setInterval(() => this.tickHandler(config.general.autoloadTrigger), 1e3);
+		const { PageDOM } = Packet.store;
+		PageDOM.switchTo('core-general');
 		return true;
 	}
 
@@ -45,12 +47,20 @@ export default class General implements Partial<ContainerHandler> {
 	binds: Record<string, (...any) => any> = {
 		posters(event) {
 			const poster = event.currentTarget;
-			console.log(event);
 			if (poster.classList.contains('poster--flipped')) {
 				poster.classList.remove('poster--flipped');
 			} else {
 				poster.classList.add('poster--flipped');
 			}
+		},
+		openPosters(event) {
+			const { Pages } = Packet.store;
+			const poster = event.currentTarget;
+			if (!poster.dataset.playerData) {
+				throw new Error('no player data');
+			}
+			const playerData = JSON.parse(poster.dataset.playerData);
+			Pages.open('core.player', playerData);
 		},
 	};
 
@@ -58,6 +68,7 @@ export default class General implements Partial<ContainerHandler> {
 		const posters = document.querySelectorAll<HTMLElement>('.page.core-general .poster');
 		posters.forEach((poster) => {
 			poster.addEventListener('click', this.binds.posters, false);
+			poster.addEventListener('dblclick', this.binds.openPosters, false);
 		});
 	}
 
@@ -65,6 +76,7 @@ export default class General implements Partial<ContainerHandler> {
 		const posters = document.querySelectorAll<HTMLElement>('.page.core-general .poster');
 		posters.forEach((poster) => {
 			poster.removeEventListener('click', this.binds.posters, false);
+			poster.addEventListener('dblclick', this.binds.openPosters, false);
 		});
 	}
 
