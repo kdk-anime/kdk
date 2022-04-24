@@ -1,13 +1,22 @@
-import { buttons } from './buttons.js';
-import Windows from '../classes/windows.js';
+import { buttons } from './buttons';
+import { Packet } from '../packet';
 
-$('header button').on('click', function () {
-	const target = $(this).data('target');
-	if (Object.keys(buttons).indexOf(target) === -1) {
-		throw new Error('Invalid target');
-	}
-	const rule = buttons[target];
-	if (rule.window) {
-		Windows.open(rule.window, rule.data);
-	}
+Packet.link();
+
+document.querySelectorAll('header button').forEach((element) => {
+	element.addEventListener('click', (event) => {
+		const target = (event.currentTarget as HTMLElement).dataset.target;
+		if (Object.keys(buttons).indexOf(target) === -1) {
+			throw new Error('Invalid target');
+		}
+		const rule = buttons[target];
+		if (rule.window) {
+			const { Windows } = Packet.store;
+			Windows.open(rule.window, rule.data);
+		}
+		if (rule.page) {
+			const { Pages } = Packet.store;
+			Pages.open(rule.page, rule.data);
+		}
+	}, false);
 });
