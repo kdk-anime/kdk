@@ -16,6 +16,7 @@
 		const head = document.querySelector('head');
 		bundles.forEach((path) => {
 			const script = document.createElement('script');
+			script.defer = true;
 			script.src = `${jsPath}${path}?${(new Date()).getTime()}`;
 			head.appendChild(script);
 		});
