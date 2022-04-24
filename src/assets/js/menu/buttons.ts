@@ -32,8 +32,9 @@ export const buttons: { [key: string]: ButtonData } = {
 		window: 'node.downloads',
 	},
 	play: {
-		window: 'core.player',
+		page: 'core.player',
 		data: {
+			player: 'internal',
 			action: 'togglePlay',
 			switchPage: Config().player.switchByHeader,
 		},

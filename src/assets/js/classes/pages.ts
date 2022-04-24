@@ -59,7 +59,7 @@ export class PageDOM {
 			throw new Error('Container with this name is already reserved');
 		}
 		const container = document.createElement('div');
-		container.classList.add('page', name);
+		container.classList.add('page', 'page--hidden', name);
 		const dom = document.querySelector(DOM.main());
 		dom.appendChild(container);
 		PageDOM.containers[name] = {
