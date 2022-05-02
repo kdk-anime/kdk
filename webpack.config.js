@@ -6,6 +6,7 @@ module.exports = {
 	mode: 'development',
 	entry: {
 		'index': path.resolve(entryPath, 'index.ts'),
+		'../../worker': path.resolve(entryPath, '../../worker.ts'),
 		'plugins/core/index': path.resolve(entryPath, 'plugins/core/index.ts'),
 		'plugins/kodik/index': path.resolve(entryPath, 'plugins/kodik/index.ts'),
 		'plugins/shikimori/index': path.resolve(entryPath, 'plugins/shikimori/index.ts'),
