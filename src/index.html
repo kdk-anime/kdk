@@ -14,11 +14,19 @@
 			'plugins/core/index.js',
 		];
 		const head = document.querySelector('head');
+		let query = [];
 		bundles.forEach((path) => {
 			const script = document.createElement('script');
 			script.defer = true;
-			script.src = `${jsPath}${path}?${(new Date()).getTime()}`;
-			head.appendChild(script);
+			script.src = `${jsPath}${path}`;
+			script.addEventListener('load', () => {
+				query.push(script);
+				if (query.length === bundles.length) {
+					query.forEach((element) => {
+						head.appendChild(element);
+					})
+				}
+			})
 		});
 	</script>
 	<title>KDK Anime | Главная</title>
