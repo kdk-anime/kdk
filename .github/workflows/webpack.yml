@@ -11,7 +11,7 @@ jobs:
     strategy:
       matrix:
         node-version: [16.x]
-    
+
     steps:
     - name: Get latest code
       uses: actions/checkout@v3
@@ -19,12 +19,16 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
+        always-auth: true
+        registry-url: https://npm.pkg.github.com
+        scope: '@fleisar'
     - name: Build
       run: |
-        npm install -g npm-cli-login
-        npm-cli-login -u "fleisar" -p "${{ secrets.authtoken }}" -e "me@fle.su" -r "https://npm.pkg.github.com" -s "@fleisar"
+        npm ci
         npm install
         npm run build
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.authtoken }}
     - name: Deploy
       uses: SamKirkland/FTP-Deploy-Action@4.3.0
       with:
