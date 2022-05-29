@@ -9,12 +9,17 @@ import Config from './config';
 Packet.link();
 
 Packet.add(
+	{ name: 'Packet', class: Packet },
 	{ name: 'Pages', class: Pages },
 	{ name: 'PageDOM', class: PageDOM },
 	{ name: 'Windows', class: Windows },
 	{ name: 'WindowDOM', class: WindowDOM },
 	{ name: 'Config', class: Config },
 );
+
+if (Packet.store.global.pluginLoad) {
+	Packet.pluginLoad(...Packet.store.global.pluginLoad);
+}
 
 // Service.cacheResources(
 // 	// css & its deps

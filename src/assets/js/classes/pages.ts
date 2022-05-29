@@ -18,6 +18,9 @@ export default class Pages {
 		if (handler.roots.indexOf(root) === -1) {
 			throw new Error(`"${root}" is not registered for ${roots[0]}`);
 		}
+		if (Pages.state !== null) {
+			Pages.close();
+		}
 		let openState;
 		if (handler.open !== undefined) {
 			openState = handler.open(root, data);

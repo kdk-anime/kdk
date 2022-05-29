@@ -4,30 +4,18 @@
 	<meta charset="UTF-8">
 	<link rel="manifest" href="manifest.json">
 	<link href="assets/index.css" rel="stylesheet">
+	<script defer src="assets/js/index.js"></script>
 	<script defer>
-		const jsPath = 'assets/js/';
-		const bundles = [
-			'index.js',
-			'plugins/kodik/index.js',
-			'plugins/shikimori/index.js',
-			'plugins/vanilla-lazyload/index.js',
-			'plugins/core/index.js',
-		];
-		const head = document.querySelector('head');
-		let query = [];
-		bundles.forEach((path) => {
-			const script = document.createElement('script');
-			script.defer = true;
-			script.src = `${jsPath}${path}`;
-			script.addEventListener('load', () => {
-				query.push(script);
-				if (query.length === bundles.length) {
-					query.forEach((element) => {
-						head.appendChild(element);
-					})
-				}
-			})
-		});
+		window.Packet = {
+			global: {
+				pluginLoad: [
+					'assets/js/plugins/kodik/index.js',
+					'assets/js/plugins/shikimori/index.js',
+					'assets/js/plugins/vanilla-lazyload/index.js',
+					'assets/js/plugins/core/index.js',
+				],
+			},
+		};
 	</script>
 	<title>KDK Anime | Главная</title>
 </head>
