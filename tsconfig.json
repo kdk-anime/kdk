@@ -1,11 +1,18 @@
 {
 	"compilerOptions": {
+		"baseUrl": "src",
 		"module": "commonjs",
-		"lib": [ "es2019", "es6", "dom", "webworker" ],
+		"lib": [ "es2021", "es6", "dom", "webworker" ],
 		"sourceMap": true,
 		"allowJs": true,
 		"moduleResolution": "Node",
 		"rootDir": "src",
+		"jsx": "react",
+		"jsxFactory": "TSXe.createElement",
+		"jsxFragmentFactory": "TSXe.Fragment",
+		"paths": {
+			"@kdk-core/*": ["assets/js/*"]
+		}
 	},
 	"include": [
 		"src"

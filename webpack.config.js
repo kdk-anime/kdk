@@ -1,4 +1,5 @@
 const path = require('path');
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 const entryPath = './src/assets/js';
 
@@ -15,7 +16,7 @@ module.exports = {
 	module: {
 		rules: [
 			{
-				test: /\.ts$/,
+				test: /\.tsx?$/,
 				loader: 'source-map-loader',
 				enforce: 'pre',
 			},
@@ -32,6 +33,7 @@ module.exports = {
 		],
 	},
 	resolve: {
+		plugins: [new TsconfigPathsPlugin()],
 		extensions: ['.tsx', '.ts', '.js'],
 	},
 	output: {
@@ -40,7 +42,7 @@ module.exports = {
 	},
 	watchOptions: {
 		ignored: [
-			'node_modules'
-		]
-	}
+			'node_modules',
+		],
+	},
 };
