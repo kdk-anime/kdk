@@ -1,4 +1,4 @@
-import { Packet } from '../../packet';
+import Packet from '@kdk-core/packet';
 import Shikimori from './src';
 
 Packet.link();
