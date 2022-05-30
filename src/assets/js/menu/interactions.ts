@@ -1,5 +1,5 @@
 import { buttons } from './buttons';
-import { Packet } from '../packet';
+import Packet from '../packet';
 
 Packet.link();
 
