@@ -1,6 +1,6 @@
 export type PacketUnit = { name: string, class: any };
 
-export class Packet {
+export default class Packet {
 	static store: Record<string, any> = {
 		gloabal: {},
 	};

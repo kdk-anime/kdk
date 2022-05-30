@@ -2,7 +2,23 @@ import { DOM } from '../DOM';
 import { ContainerDOM, ContainerHandler, ContainerState } from '../objects/containers';
 import { ObjectStore } from '../objects/shared';
 
-export default class Pages {
+export type PagesType = {
+	state: ContainerState | null,
+	handlers: ObjectStore<ContainerHandler>,
+	open<T = any>(name: string, data?: T): void,
+	close<T = any>(data?: T): void,
+	register(name: string, handler: ContainerHandler): void,
+};
+
+export type PageDOMType = {
+	state: ContainerDOM | null,
+	containers: { [key: string]: ContainerDOM },
+	reserveContainer(name: string): HTMLElement,
+	getContainer(name: string): HTMLElement,
+	switchTo(name: string),
+};
+
+export class Pages {
 
 	static state: ContainerState | null = null;
 
@@ -57,22 +73,23 @@ export class PageDOM {
 
 	static containers: { [key: string]: ContainerDOM } = {};
 
-	static reserveContainer(name: string) {
+	static reserveContainer(name: string): HTMLElement {
 		if (PageDOM.containers[name]) {
 			throw new Error('Container with this name is already reserved');
 		}
 		const container = document.createElement('div');
 		container.classList.add('page', 'page--hidden', name);
-		const dom = document.querySelector(DOM.main());
+		const dom = document.querySelector<HTMLElement>(DOM.main());
 		dom.appendChild(container);
 		PageDOM.containers[name] = {
 			name,
 			selector: DOM.page(name),
 			element: container,
 		};
+		return container;
 	}
 
-	static getContainer(name: string) {
+	static getContainer(name: string): HTMLElement {
 		const container = PageDOM.containers[name];
 		if (!container) {
 			throw new Error('Container with this name is not exist');

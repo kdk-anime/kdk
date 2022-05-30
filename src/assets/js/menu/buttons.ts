@@ -34,7 +34,7 @@ export const buttons: { [key: string]: ButtonData } = {
 	play: {
 		page: 'core.player',
 		data: {
-			player: 'internal',
+			player: 'initial',
 			action: 'togglePlay',
 			switchPage: Config().player.switchByHeader,
 		},

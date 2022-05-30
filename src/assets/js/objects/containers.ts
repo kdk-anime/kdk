@@ -15,5 +15,5 @@ export interface ContainerState<T = any> {
 export interface ContainerDOM {
 	name: string;
 	selector: string;
-	element: Element;
+	element: HTMLElement;
 }
