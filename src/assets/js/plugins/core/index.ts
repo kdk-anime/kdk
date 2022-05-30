@@ -1,24 +1,17 @@
-import { Packet } from '../../packet';
-import { importHTML } from './utils/import';
-import { ContainerHandler } from '../../objects/containers';
-import { ObjectStore } from '../../objects/shared';
+import Packet from '@kdk-core/packet';
+import { ContainerHandler } from '@kdk-core/objects/containers';
+import { ObjectStore } from '@kdk-core/objects/shared';
 import General from './pages/general';
 import Player from './pages/player';
 
 Packet.link();
 
-Packet.add({ name: 'core', class: {
-	utils: {
-		importHTML,
-	},
-} });
-
 export default class Core implements ContainerHandler {
 	subHandlers: ObjectStore<Partial<ContainerHandler>> = {};
 
 	constructor() {
-		this.subHandlers.general = new General(this);
-		this.subHandlers.player = new Player(this);
+		this.subHandlers.general = new General();
+		this.subHandlers.player = new Player();
 	}
 
 	handler(root, data): boolean {
