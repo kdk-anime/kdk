@@ -5,9 +5,14 @@ export default class Packet {
 		gloabal: {},
 	};
 
+	static listeners = {};
+
 	static add(...elements: PacketUnit[]) {
 		elements.forEach((element) => {
 			Packet.store[element.name] = element.class;
+			if (this.listeners[element.name]) {
+				this.listeners[element.name].forEach((listener) => listener());
+			}
 		});
 	}
 
@@ -48,6 +53,28 @@ export default class Packet {
 				console.error('Error during loading resources:', err);
 				results[1]++;
 				handler();
+			});
+		});
+	}
+
+	static pluginsAwait(names: string[], callback: () => void) {
+		let loaded = 0;
+		const checkProgress = () => {
+			if (loaded === names.length) {
+				callback();
+			}
+		};
+		names.forEach((name) => {
+			if (Packet.store[name]) {
+				loaded += 1;
+				return checkProgress();
+			}
+			if (!Packet.listeners[name]) {
+				Packet.listeners[name] = [];
+			}
+			Packet.listeners[name].push(() => {
+				loaded += 1;
+				checkProgress();
 			});
 		});
 	}
