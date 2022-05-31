@@ -59,7 +59,7 @@ export class Pages {
 
 	static register(name: string, handler: ContainerHandler): void {
 		if (Object.keys(Pages.handlers).indexOf(name) !== -1) {
-			throw new Error('This handler is already exists');
+			throw new Error(`Handler "${name}" is already exists`);
 		}
 		Pages.handlers[name] = handler;
 		if (handler.setup) {
@@ -75,7 +75,7 @@ export class PageDOM {
 
 	static reserveContainer(name: string): HTMLElement {
 		if (PageDOM.containers[name]) {
-			throw new Error('Container with this name is already reserved');
+			throw new Error(`Container "${name}" is already reserved`);
 		}
 		const container = document.createElement('div');
 		container.classList.add('page', 'page--hidden', name);
@@ -92,7 +92,7 @@ export class PageDOM {
 	static getContainer(name: string): HTMLElement {
 		const container = PageDOM.containers[name];
 		if (!container) {
-			throw new Error('Container with this name is not exist');
+			throw new Error(`Container "${name}" is not exist`);
 		}
 		return container.element;
 	}
