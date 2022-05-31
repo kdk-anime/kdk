@@ -3,11 +3,18 @@ import { ContainerHandler } from '@kdk-core/objects/containers';
 import { ObjectStore } from '@kdk-core/objects/shared';
 import General from './pages/general';
 import Player from './pages/player';
+import { PageDOMType } from '@kdk-core/classes/pages';
 
 Packet.link();
 
+const { PageDOM } = Packet.store as { PageDOM: PageDOMType };
+
+export interface PageHandler extends ContainerHandler {
+	name: string;
+}
+
 export default class Core implements ContainerHandler {
-	subHandlers: ObjectStore<Partial<ContainerHandler>> = {};
+	subHandlers: ObjectStore<Partial<PageHandler>> = {};
 
 	constructor() {
 		this.subHandlers.general = new General();
@@ -38,11 +45,15 @@ export default class Core implements ContainerHandler {
 		return true;
 	}
 
-	async setup(): Promise<boolean> {
-		await this.subHandlers.general.setup();
-		await this.subHandlers.player.setup();
-		Packet.store.Pages.open('core.general');
-		return true;
+	setup(): Promise<boolean> {
+		return new Promise((res) => {
+			Packet.pluginsAwait(['Kodik', 'Shikimori', 'LazyLoad'], async () => {
+				await this.subHandlers.general.setup();
+				await this.subHandlers.player.setup();
+				PageDOM.switchTo(this.subHandlers.general.name);
+				return res(true);
+			});
+		});
 	}
 
 	roots = ['general', 'player'];

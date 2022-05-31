@@ -1,5 +1,4 @@
 import animePoster, { animePosterStyles } from './components/animePoster';
-import { ContainerHandler } from '@kdk-core/objects/containers';
 import Packet from '@kdk-core/packet';
 import { default as ShikimoriTS } from '@kdk-core/plugins/shikimori/src';
 import { default as KodikTS } from '@fleisar/kodik.ts/dist';
@@ -12,6 +11,7 @@ import { attachBlob } from '@kdk-core/utils/assets';
 import loading from './assets/loading';
 import { PagesType, PageDOMType } from '@kdk-core/classes/pages';
 import { ConfigTree } from '@kdk-core/config';
+import { PageHandler } from '../../';
 
 Packet.link();
 const { Pages, PageDOM, Config, Kodik, Shikimori, LazyLoad } = Packet.store as {
@@ -20,7 +20,7 @@ const { Pages, PageDOM, Config, Kodik, Shikimori, LazyLoad } = Packet.store as {
 };
 
 
-export default class General implements Partial<ContainerHandler> {
+export default class General implements Partial<PageHandler> {
 	name: string = 'core-general';
 
 	lazyLoad: any;
@@ -38,7 +38,6 @@ export default class General implements Partial<ContainerHandler> {
 	styleObject: Style;
 
 	constructor() {
-		this.lazyLoad = new LazyLoad();
 		this.styleObject = new Style({
 			'.page.core-general': {
 				padding: '80px',
@@ -106,11 +105,11 @@ export default class General implements Partial<ContainerHandler> {
 	};
 
 	open() {
+		PageDOM.switchTo(this.name);
 		if (this.state.firstTime) {
 			this.state.firstTime = false;
 			this.firstOpen().then();
 		}
-		PageDOM.switchTo(this.name);
 		return true;
 	}
 
@@ -142,7 +141,7 @@ export default class General implements Partial<ContainerHandler> {
 		const posterHeight = 254 + 32;
 		const postersCount = Math.floor((height - 306) / posterHeight) * 5;
 		this.state.pageSize = Math.floor(postersCount / 2);
-		console.log(this.state, postersCount);
+		console.log(this.state, height, postersCount, container);
 		for (let i = 0; i < postersCount; i += this.state.pageSize) {
 			await this.loadTitles(!i);
 		}
@@ -227,14 +226,15 @@ export default class General implements Partial<ContainerHandler> {
 	}
 
 	async setup() {
+		this.lazyLoad = new LazyLoad();
 		const container = PageDOM.reserveContainer(this.name);
 		container.appendChild(
 			<>
 				<style>{this.styleObject.styles()}</style>
-				<div class="backplate"></div>
+				<div class="backplate"/>
 				<h1>Главная</h1>
-				<div class="general-container"></div>
-				<div class="poster--plate"></div>
+				<div class="general-container"/>
+				<div class="poster--plate"/>
 				<div class="loading-box">
 					<img src={ attachBlob(loading, { type: 'image/svg+xml' }) } alt="loading" />
 				</div>
