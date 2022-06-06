@@ -8,6 +8,10 @@ import Config from './config';
 
 Packet.link();
 
+Packet.store.global.Packet = {
+	listeners: {},
+};
+
 Packet.add(
 	{ name: 'Packet', class: Packet },
 	{ name: 'Pages', class: Pages },

@@ -1,17 +1,18 @@
+import { watcher } from '@kdk-core/utils/asyncs';
+
 export type PacketUnit = { name: string, class: any };
 
 export default class Packet {
 	static store: Record<string, any> = {
-		gloabal: {},
+		global: {},
 	};
 
-	static listeners = {};
-
 	static add(...elements: PacketUnit[]) {
+		Packet.link();
 		elements.forEach((element) => {
 			Packet.store[element.name] = element.class;
-			if (this.listeners[element.name]) {
-				this.listeners[element.name].forEach((listener) => listener());
+			if (Packet.store.global.Packet.listeners[element.name]) {
+				Packet.store.global.Packet.listeners[element.name].forEach((listener) => listener());
 			}
 		});
 	}
@@ -58,24 +59,24 @@ export default class Packet {
 	}
 
 	static pluginsAwait(names: string[], callback: () => void) {
-		let loaded = 0;
-		const checkProgress = () => {
-			if (loaded === names.length) {
-				callback();
-			}
-		};
-		names.forEach((name) => {
-			if (Packet.store[name]) {
-				loaded += 1;
-				return checkProgress();
-			}
-			if (!Packet.listeners[name]) {
-				Packet.listeners[name] = [];
-			}
-			Packet.listeners[name].push(() => {
-				loaded += 1;
-				checkProgress();
+		const loaders: (() => Promise<boolean>)[] = names.map((name) => () => {
+			return new Promise((res) => {
+				console.groupCollapsed(`Waiting for ${name} plugin`);
+				if (!Packet.store.global.Packet.listeners[name]) {
+					Packet.store.global.Packet.listeners[name] = [];
+				}
+				console.log('Set load listener');
+				Packet.store.global.Packet.listeners[name].push(() => {
+					res(true);
+				});
+				if (Packet.store[name]) {
+					console.log('Found in store');
+					res(true);
+				}
+				console.groupEnd();
 			});
 		});
+
+		watcher<boolean>(callback, ...loaders);
 	}
 }
