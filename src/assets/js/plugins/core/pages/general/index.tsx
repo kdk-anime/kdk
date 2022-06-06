@@ -14,9 +14,9 @@ import { ConfigTree } from '@kdk-core/config';
 import { PageHandler } from '../../';
 
 Packet.link();
-const { Pages, PageDOM, Config, Kodik, Shikimori, LazyLoad } = Packet.store as {
+const { Pages, PageDOM, Config, Kodik, Shikimori } = Packet.store as {
 	Pages: PagesType, PageDOM: PageDOMType, Config: () => ConfigTree,
-	Kodik: typeof KodikTS, Shikimori: typeof ShikimoriTS, LazyLoad
+	Kodik: typeof KodikTS, Shikimori: typeof ShikimoriTS
 };
 
 
@@ -65,12 +65,12 @@ export default class General implements Partial<PageHandler> {
 				...animePosterStyles,
 			},
 		});
-		[6e2, 8e2, 1e3, 12e2].forEach((width, index) => {
+		[12e2, 1e3, 8e2, 6e2].forEach((width, index) => {
 			this.styleObject.media(`(max-width: ${width}px)`, {
 				'.page.core-general .general-container': {
-					'-TilesRow': index + 1,
+					'-TilesRow': 4 - index,
 				},
-			});
+			}, true);
 		});
 	}
 
@@ -226,6 +226,7 @@ export default class General implements Partial<PageHandler> {
 	}
 
 	async setup() {
+		const { LazyLoad } = Packet.store;
 		this.lazyLoad = new LazyLoad();
 		const container = PageDOM.reserveContainer(this.name);
 		container.appendChild(

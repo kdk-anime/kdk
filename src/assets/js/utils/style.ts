@@ -6,7 +6,7 @@ export class Style {
 	styleObject: Record<string, any>;
 
 	styles(): string {
-		return `${this.preStyle.join('')}${this.prepare(this.styleObject)}${this.postStyle}`;
+		return `${this.preStyle.join('')}${this.prepare(this.styleObject)}${this.postStyle.join('')}`;
 	}
 
 	constructor(style: Record<string, any>) {
@@ -43,7 +43,7 @@ export class Style {
 		this.preStyle.push(`@import ${string};`);
 	}
 
-	media(expression: string, styles: object) {
-		this.preStyle.push(`@media ${expression} {${this.prepare(styles)}}`);
+	media(expression: string, styles: object, postStyle: boolean = false) {
+		this[`${postStyle ? 'post' : 'pre' }Style`].push(`@media ${expression} {${this.prepare(styles)}}`);
 	}
 }
