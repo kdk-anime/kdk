@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "plugins": [
+    {
+      "name": "Test",
+      "source": "./Plugins/Test.js"
+    }
+  ]
+}

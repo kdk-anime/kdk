@@ -1,46 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-	<meta charset="UTF-8">
-	<link rel="manifest" href="manifest.json">
+	<link href="manifest.json" rel="manifest">
 	<link href="assets/index.css" rel="stylesheet">
-	<script defer src="assets/js/index.js"></script>
-	<script defer>
-		window.Packet = {
-			global: {
-				pluginLoad: [
-					'assets/js/plugins/kodik/index.js',
-					'assets/js/plugins/shikimori/index.js',
-					'assets/js/plugins/vanilla-lazyload/index.js',
-					'assets/js/plugins/core/index.js',
-				],
-			},
-		};
-	</script>
+
+	<script defer src="App/index.js"></script>
+
 	<title>KDK Anime | Главная</title>
+	<meta charset="UTF-8">
+	<meta name="author" content="Fleisar">
+	<meta name="description" content="KDK Anime - это сервис для комфортного просмотра аниме, объединяющий в себя самое лучшее.">
+	<meta name="keywords" content="kdk, fleisar, fle, anime, кдк, аниме, смотреть, онлайн">
+	<meta name="theme-color" content="#f0f0f0">
+	<meta name="color-scheme" content="light dark">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<meta name="robots" content="INDEX, NOFOLLOW">
 </head>
 <body>
 	<div class="body">
 		<header class="header">
-			<div class="header__left">
-				<button data-target="general">home</button>
-				<button data-target="recommendation">recommend</button>
-				<button data-target="favourite">favorite</button>
-				<button data-target="history">history</button>
-				<button data-target="collections">perm_media</button>
-			</div>
-			<div class="header__right">
-				<button data-target="downloads">cloud_download</button>
-				<button data-target="play">play_arrow</button>
-				<button data-target="search">search</button>
-				<button data-target="settings">settings</button>
-			</div>
-			<div class="windows"></div>
+			<nav class="header__container">
+				<ul class="header__left"></ul>
+				<ul class="header__right"></ul>
+			</nav>
+			<div class="panel__container"></div>
 		</header>
+		<div class="windows"></div>
 		<main></main>
 	</div>
 	<div class="root_footer">
-		<div class="root_footer__info_block"></div>
+		<div class="root_footer__info_block">DEV</div>
 		<span>By Fleisar</span>
 	</div>
 	<div class="root_hoverMenu"></div>

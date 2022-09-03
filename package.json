@@ -8,8 +8,10 @@
     "compile-styles": "sass ./src:./dist",
     "compile-scripts": "webpack --config webpack.config.js",
     "compile": "npm run compile-styles && npm run compile-scripts",
+    "compile-prod": "npm run compile-styles -- -s compressed --no-source-map && npm run compile-scripts -- --mode=production",
     "copy": "copyfiles -u 1 ./src/**/*.html ./dist && copyfiles -u 1 ./src/assets/fonts/**/* ./dist && copyfiles -u 1 ./src/**/*.json ./dist",
-    "build": "rimraf ./dist && npm run copy && npm run compile"
+    "build-dev": "rimraf ./dist && npm run copy && npm run compile",
+    "build": "rimraf ./dist && npm run copy && npm run compile-prod"
   },
   "author": "Fleisar",
   "license": "ISC",
@@ -33,7 +35,8 @@
   },
   "dependencies": {
     "@fleisar/kodik.ts": "^1.0.1",
-    "vanilla-lazyload": "^17.7.0",
-    "tsxe": "^2.1.2"
+    "styled-components": "^5.3.5",
+    "tsxe": "^2.1.2",
+    "vanilla-lazyload": "^17.7.0"
   }
 }

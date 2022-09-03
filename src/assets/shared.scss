@@ -1,0 +1,23 @@
+body {
+  margin: 0;
+  height: var(--window-height);
+  font-family: "Open Sans", sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+body, .body {
+  overflow: hidden;
+}
+
+.body {
+  flex: 1;
+  position: relative;
+}
+
+main {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: auto;
+}

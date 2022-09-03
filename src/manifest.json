@@ -3,8 +3,11 @@
 	"short_name": "KDK",
 	"start_url": "./",
 	"display": "standalone",
+	"dir": "ltr",
+	"description": "KDK Anime - это сервис для комфортного просмотра аниме, объединяющий в себя самое лучшее.",
 	"background_color": "#f0f0f0",
 	"categories": ["entertainment", "utilities"],
+	"orientation": "portrait-primary",
 	"lang": "ru-RU",
 	"protocol_handlers": [
 		{

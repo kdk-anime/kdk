@@ -1,17 +1,14 @@
 const path = require('path');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
-const entryPath = './src/assets/js';
+const entryPath = './src';
 
 module.exports = {
 	mode: 'development',
 	entry: {
-		'index': path.resolve(entryPath, 'index.ts'),
-		'../../worker': path.resolve(entryPath, '../../worker.ts'),
-		'plugins/core/index': path.resolve(entryPath, 'plugins/core/index.ts'),
-		'plugins/kodik/index': path.resolve(entryPath, 'plugins/kodik/index.ts'),
-		'plugins/shikimori/index': path.resolve(entryPath, 'plugins/shikimori/index.ts'),
-		'plugins/vanilla-lazyload/index': path.resolve(entryPath, 'plugins/vanilla-lazyload/index.ts'),
+		'App/index': path.resolve(entryPath, 'App/index.ts'),
+		'service': path.resolve(entryPath, 'Service/index.ts'),
+		'Plugins/Test': path.resolve(entryPath, 'Plugins/Test/index.tsx')
 	},
 	module: {
 		rules: [
@@ -38,7 +35,7 @@ module.exports = {
 	},
 	output: {
 		filename: '[name].js',
-		path: path.resolve(__dirname, 'dist', 'assets/js'),
+		path: path.resolve(__dirname, 'dist'),
 	},
 	watchOptions: {
 		ignored: [
