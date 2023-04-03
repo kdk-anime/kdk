@@ -1,39 +1,34 @@
-name: Deploy on server
+name: Build page
 
 on:
   push:
-    branches: [ master ]
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [16.x, 18.x]
 
     steps:
-    - name: Get latest code
-      uses: actions/checkout@v3
-    - name: Setting up NodeJS
+    - uses: actions/checkout@v3
+
+    - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-        always-auth: true
-        registry-url: https://npm.pkg.github.com
-        scope: '@fleisar'
+
+    - name: Installing deps
+      run: |
+        npm install
     - name: Build
       run: |
-        npm ci
-        npm install
         npm run build
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.authtoken }}
-    - name: Deploy
-      uses: SamKirkland/FTP-Deploy-Action@4.3.0
-      with:
-        server: ${{ secrets.statichost }}
-        username: ${{ secrets.staticuser }}
-        password: ${{ secrets.staticuserpassword }}
-        local-dir: ./dist/
-        server-dir: ${{ secrets.staticroot }}
+    - name: Post-Process
+      run: |
+        find . -type d -not -name "dist" -print0 | xargs -0 rm --
+        mv -v ./dist/* .
